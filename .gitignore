@@ -1,6 +1,6 @@
 # directory
 /data/
-
+/qamdt/checkpoints/
 # files
 *.log
 *.tmp
