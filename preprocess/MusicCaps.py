@@ -88,5 +88,5 @@ if __name__ == "__main__" :
     # get annotated csv from Huggingface
     os.makedirs(args.audio_path, exist_ok=True)
     
-    ds = main(args.audio_path, num_proc=16, limit=32)
+    ds = main(args.audio_path, num_proc=16)
     
