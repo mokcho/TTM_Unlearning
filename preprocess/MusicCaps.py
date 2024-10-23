@@ -41,12 +41,21 @@ def download_clip(
 
 def main(
     data_dir: str,
+    annotation_dir:str,
     sampling_rate: int = 44100,
     limit: int = None,
     num_proc: int = 1,
     writer_batch_size: int = 1000,
 ):
     ds = load_dataset('google/MusicCaps', split='train')
+    
+    train_test_split = ds.train_test_split(test_size=0.4, seed=42)
+    test_eval_split = train_test_split['test'].train_test_split(test_size=0.5, seed=42)
+
+    # 60 : 20 : 20
+    train_test_split['train'].to_csv(f"{annotation_dir}/train.csv")
+    test_eval_split['train'].to_csv(f"{annotation_dir}/test.csv")
+    test_eval_split['test'].to_csv(f"{annotation_dir}/eval.csv")
     
     if limit is not None:
         print(f"Limiting to {limit} examples")
@@ -82,11 +91,12 @@ def main(
 if __name__ == "__main__" :
     parser = argparse.ArgumentParser()
     parser.add_argument("--audio_path", type=str, default="./data/MusicCaps/audio")
-    #parser.add_argument("--annotation_path", type=str, default="./data/MusicCaps/annotation")
+    parser.add_argument("--annotation_path", type=str, default="./data/MusicCaps/annotation")
     args = parser.parse_args()
     
     # get annotated csv from Huggingface
     os.makedirs(args.audio_path, exist_ok=True)
+    os.makedirs(args.annotation_path, exist_ok=True)
     
-    ds = main(args.audio_path, num_proc=16)
+    ds = main(args.audio_path, args.annotation_path, num_proc=16)
     
