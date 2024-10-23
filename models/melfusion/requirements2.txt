@@ -1,0 +1,16 @@
+datasets
+torchvision
+accelerate
+transformers==4.27.0
+torchaudio
+soundfile
+einops
+progressbar
+scipy
+librosa
+torchtools
+resampy==0.4.2
+scikit-image
+torchlibrosa==0.1.0
+ssr_eval
+wandb
